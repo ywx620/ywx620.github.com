@@ -176,6 +176,8 @@
                 <file name="src/GameUI.js"/>
                 <file name="src/ControlLayer.js"/>
                 <file name="src/MapLayer.js"/>
+                <file name="src/EnergyControl.js"/>
+                <file name="src/SteeringWheelControl.js"/>
                 <file name="main.js"/>
 
             </sources>
