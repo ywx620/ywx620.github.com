@@ -3,14 +3,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-<title>JS测试显示器分辨率</title>
+<title>JS娴嬭瘯鏄剧ず鍣ㄥ垎杈ㄧ巼</title>
 </head>
 <body>
 <div style="width:1cm;" id="hutia"></div>
 <SCRIPT LANGUAGE="JavaScript">
-document.write('您的显示器分辨率为:\n' + screen.width + '*' + screen.height + ' pixels<br/>');
+document.write('鎮ㄧ殑鏄剧ず鍣ㄥ垎杈ㄧ巼涓�:\n' + screen.width + '*' + screen.height + ' pixels<br/>');
 var ww = document.getElementById("hutia").offsetWidth, w = screen.width/ww, h = screen.height/ww, r = Math.round(Math.sqrt(w*w + h*h) / 2.54);
-document.write(' 您的显示器尺寸为:\n' + (screen.width/ww).toFixed(1) + '*' + (screen.height/ww).toFixed(1) + ' cm, '+ r +'寸<br/>');
+document.write(' 鎮ㄧ殑鏄剧ず鍣ㄥ昂瀵镐负:\n' + (screen.width/ww).toFixed(1) + '*' + (screen.height/ww).toFixed(1) + ' cm, '+ r +'瀵�<br/>');
 </SCRIPT>
 </body>
 </html>
