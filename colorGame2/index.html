@@ -5,9 +5,16 @@
     <script type="text/javascript" src="cocos2d-js-v3.6-lite.js" charset="UTF-8"></script>
     <script type="text/javascript" src="SelectColor.js" charset="UTF-8"></script>
 </head>
-<body>   
-    <canvas id="gameCanvas" width="640" height="960"></canvas>
+<body>
+    <canvas id="gameCanvas" width="1440" height="815" style="position: absolute; top: 0px; left: 0px; z-index: 100; opacity: 1;"></canvas>
     <script type="text/javascript">
+    			var h=screen.height;
+    			var w=screen.width;
+    			document.getElementById("gameCanvas").width=w;
+    			document.getElementById("gameCanvas").height=h;
+    			//document.write(document.getElementById("gameCanvas").width);
+    			
+    			//**
           window.onload = function(){
               cc.game.onStart = function(){
                   //load resources
@@ -24,7 +31,10 @@
                   }, this);
               };
               cc.game.run("gameCanvas");
+              //document.write(document.getElementById("gameCanvas").height,document.getElementById("gameCanvas").width);
           };
+          //*/
+          
     </script>
 </body>
 </html>
