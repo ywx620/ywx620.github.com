@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello Cocos2d-JS</title> 
+    <script type="text/javascript" src="cocos2d-js-v3.6-lite.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="SelectColor.js" charset="UTF-8"></script>
+</head>
+<body>   
+    <canvas id="gameCanvas" width="640" height="960"></canvas>
+    <script type="text/javascript">
+          window.onload = function(){
+              cc.game.onStart = function(){
+                  //load resources
+                  cc.LoaderScene.preload([], function () {
+                      var MyScene = cc.Scene.extend({
+                          onEnter:function () {
+                              this._super();
+                              var demo=new MainSelectColorLayer();
+                              demo.init();
+                              this.addChild(demo);
+                          }
+                      });
+                      cc.director.runScene(new MyScene());
+                  }, this);
+              };
+              cc.game.run("gameCanvas");
+          };
+    </script>
+</body>
+</html>
