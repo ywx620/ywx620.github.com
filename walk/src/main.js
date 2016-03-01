@@ -178,7 +178,7 @@ var MainLayer = cc.Layer.extend({
         }else if(this.isLose){
             man.y-=speed*2;
             if(man.y<0){
-                document.title="我在英雄向前冲中走了"+this.score+"步，等你来挑起。";
+                document.title="我在英雄向前冲中走了"+this.score+"步，等你来挑战。";
                 this.isLose=false;
                 this.initGame();
             }
