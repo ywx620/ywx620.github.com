@@ -14,6 +14,7 @@ var MainLayer = cc.Layer.extend({
     isMove:false,
     isNext:false,
     isMoveBox:false,
+    isNewMoveBox:false,
     isLose:false,
     control:null,
     ui:null,
@@ -97,10 +98,11 @@ var MainLayer = cc.Layer.extend({
         node.x=size.width;
         node.scaleX=0.3+Math.random()*2;
         node.scaleY=2;
-        var middleNode=this.boxs[1];
+        var middleNode=this.boxs[0];
         this.min=middleNode.width*middleNode.scaleX+120+Math.random()*300;
         this.max=this.min+node.width*node.scaleX;
         this.boxs.push(node);
+        this.boxs.splice(0,1);
     },
     update:function(){
         var qiao=this.qiao;
@@ -148,7 +150,7 @@ var MainLayer = cc.Layer.extend({
             this.ui.updateScore(this.score);
             if(man.x>=len){
                 max.x=len;
-                this.createNextBox();
+                //this.createNextBox();
                 this.isNext=false;
                 this.isMoveBox=true;
             }
@@ -157,22 +159,21 @@ var MainLayer = cc.Layer.extend({
             man.x-=speed;
             qiao.x-=speed;
             var middleNode=boxs[1];
-            var endNode=boxs[2];
             for(var i=0;i<boxs.length;i++){
-                if(i==2){
-                    if(endNode.x>min) {
-                        endNode.x -= speed * 2;
-                    }else{
-                        endNode.x=min;
-                    }
-                }else {
-                    boxs[i].x -= speed;
-                }
+                boxs[i].x -= speed;
             }
             if(middleNode.x<=0){
                 middleNode.x=0;
                 this.isMoveBox=false;
-                boxs.splice(0,1);
+                this.createNextBox();
+                this.isNewMoveBox=true;
+            }
+        }else if(this.isNewMoveBox){
+            var middleNode=boxs[1];
+            middleNode.x-=speed*2;
+            trace(min);
+            if(middleNode.x<min){
+                this.isNewMoveBox=false;
                 this.initData();
             }
         }else if(this.isLose){

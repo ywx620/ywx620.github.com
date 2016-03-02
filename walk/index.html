@@ -7,6 +7,7 @@
     <script type="text/javascript" src="src/main.js" charset="UTF-8"></script>
     <script type="text/javascript" src="src/ControlLayer.js" charset="UTF-8"></script>
     <script type="text/javascript" src="src/GameUI.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="src/MyLoaderScene.js" charset="UTF-8"></script>
     <script>
         ;(function(b,f){
             var a=document.createElement("script");a.async=true;a.charset="UTF-8";a.src=f;var d=document.querySelector("script");d.parentNode.insertBefore(a,d);var e=[];var c=function(h){if(typeof DCAgent==="undefined"){e.push(arguments)}else{var g=DCAgent[h];if(!g){return console.log("DCAgent."+h+" is undefined")}if(typeof g==="function"){return g.apply(DCAgent,[].slice.call(arguments,1))}else{return g}}};c.loadTime=Date.now();c.cache=e;window[b]=c;window["DCAgentObject"]=b
@@ -32,7 +33,7 @@
                   var screenSize = cc.view.getFrameSize();
                   cc.view.setDesignResolutionSize(designSize.width, designSize.height, cc.ResolutionPolicy.SHOW_ALL);
                   //cc.LoaderScene.preload(["HelloWorld.png"], function () {//官方
-                  cc.LoaderScene.preload(g_resources, function () {//自定义,可以修改加裁的icon
+                  MyLoaderScene.preload(g_resources, function () {//自定义,可以修改加裁的icon
                           var MyScene = cc.Scene.extend({
                               onEnter:function () {
                                   this._super();
