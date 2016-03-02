@@ -81,7 +81,7 @@ var MainLayer = cc.Layer.extend({
         node.y=200;
 
         var endNode=this.boxs[1];
-        this.min=endNode.x-40;
+        this.min=endNode.x-20;
         this.max=this.min+endNode.width*endNode.scaleX;
         this.isPress=true;
     },
