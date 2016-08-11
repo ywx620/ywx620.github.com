@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>欣怡加油,改变美好将来只能靠自己.</title>
+    <script type="text/javascript" src="src/cocos2d-js-v3.6-lite.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="src/MyLoaderScene.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="src/main.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="src/resource.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="src/answerManager.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="src/EventManager.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="src/dataManager.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="src/titleManager.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="src/stateManager.js" charset="UTF-8"></script>
+</head>
+<body bgcolor="#000000">
+    <canvas id="gameCanvas" width="640" height="960"></canvas>
+    <script type="text/javascript">
+          window.onload = function(){
+              cc.game.onStart = function(){
+                  var designSize = cc.size(640, 960);
+                  var screenSize = cc.view.getFrameSize();
+                  cc.view.setDesignResolutionSize(designSize.width, designSize.height, cc.ResolutionPolicy.SHOW_ALL);
+                  //cc.LoaderScene.preload(["HelloWorld.png"], function () {//官方
+                  MyLoaderScene.preload(g_resources, function () {//自定义,可以修改加裁的icon
+                          var MyScene = cc.Scene.extend({
+                              onEnter:function () {
+                                  this._super();
+                                  var main=new MainLayer();
+                                  this.addChild(main);
+                              }
+                          });
+                          cc.director.runScene(new MyScene());
+                      }, this);
+              };
+              cc.game.run("gameCanvas");
+          };
+    </script>
+</body>
+</html>
