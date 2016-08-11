@@ -26,6 +26,7 @@ var MainLayer = cc.Layer.extend({
         EventManager.addEventListener(REPLAY,this.onReplay.bind(this));
 
         this.initData();
+        cc.view.enableAutoFullScreen(true);
     },
     initData:function(){
         DataManager.speed=1;
