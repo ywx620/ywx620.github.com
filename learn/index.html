@@ -1,7 +1,79 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>改变只能靠自己.</title>
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, initial-scale=1.0, user-scalable=no, minimal-ui">
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+    <style type="text/css">
+        body{margin:0;text-decoration:none;}
+        .load{ max-width:960px; margin:auto; background:#FFF; position:absolute; z-index:9999999999;width:100%; top:0; left:50%; transform:translateX(-50%); -webkit-transform:translateX(-50%); -moz-transform:translateX(-50%)}
+        .load1{ width:42.7%;margin:auto; padding:5% 0;}
+        .load2{ width:100%; font-size:1.5rem; text-align:center; color:#aaaaaa;}
+        @media screen and (orientation:landscape){}
+        @media screen and (orientation:portrait){
+            .load{ max-width:640px; margin:auto; background:#FFF;}
+            .load1{ width:100%;margin:auto; padding:5% 0;}
+            .load2 { padding-top:20%;}
+        }
+
+        .footer-fixed {
+            height: 50px;
+            background: rgba(0,0,0,0.6);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: none;
+        }
+        .footer-fixed .img {
+            display: block;
+            height: 36px;
+            margin: 10px 18px;
+            color: #fff;
+        }
+        .footer-fixed .img span, .footer-fixed .img img {
+            float: left;
+            font-size: 14px;
+        }
+        .footer-fixed .img img {
+            width: 36px;
+            height: 36px;
+            margin-right: 10px;
+        }
+        img {
+            border: none;
+            border: 0;
+            max-width: 100%;
+        }
+        Inherited from a.img
+        .footer-fixed .img {
+            display: block;
+            height: 36px;
+            margin: 10px 18px;
+            color: #fff;
+        }
+        .footer-fixed .img span i {
+            display: block;
+            font-size: 16px;
+        }
+        em, i {
+            font-style: normal;
+        }
+        .footer-fixed .img em {
+            float: right;
+            background-color: #19d874;
+            width: 85px;
+            height: 26px;
+            line-height: 25px;
+            text-align: center;
+            color: #fff;
+            border-radius: 6px;
+            border-bottom: solid 1px #4ACB15;
+            font-size: 16px;
+            margin-top: 4px;
+        }
+        .mpx{font-size: 14px;}
+    </style>
+    <title>欣怡加油,改变只能靠自己.</title>
     <script type="text/javascript" src="src/cocos2d-js-v3.6-lite.js" charset="UTF-8"></script>
     <script type="text/javascript" src="src/MyLoaderScene.js" charset="UTF-8"></script>
     <script type="text/javascript" src="src/main.js" charset="UTF-8"></script>
@@ -11,90 +83,15 @@
     <script type="text/javascript" src="src/dataManager.js" charset="UTF-8"></script>
     <script type="text/javascript" src="src/titleManager.js" charset="UTF-8"></script>
     <script type="text/javascript" src="src/stateManager.js" charset="UTF-8"></script>
-    <meta name="viewport" content="width=device-width, maximum-scale=1.0, initial-scale=1.0, user-scalable=no, minimal-ui">
-<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
-    <style type="text/css">
-body{margin:0;text-decoration:none;}
-.load{ max-width:960px; margin:auto; background:#FFF; position:absolute; z-index:9999999999;width:100%; top:0; left:50%; transform:translateX(-50%); -webkit-transform:translateX(-50%); -moz-transform:translateX(-50%)}
-.load1{ width:42.7%;margin:auto; padding:5% 0;}
-.load2{ width:100%; font-size:1.5rem; text-align:center; color:#aaaaaa;}
- @media screen and (orientation:landscape){}
- @media screen and (orientation:portrait){
-	 .load{ max-width:640px; margin:auto; background:#FFF;}
-	 .load1{ width:100%;margin:auto; padding:5% 0;}
-     .load2 { padding-top:20%;}
-	 }
-	 
-.footer-fixed {
-    height: 50px;
-    background: rgba(0,0,0,0.6);
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    display: none;
-}
-.footer-fixed .img {
-    display: block;
-    height: 36px;
-    margin: 10px 18px;
-    color: #fff;
-}
-.footer-fixed .img span, .footer-fixed .img img {
-    float: left;
-	font-size: 14px;
-}
-.footer-fixed .img img {
-    width: 36px;
-    height: 36px;
-    margin-right: 10px;
-}
-img {
-    border: none;
-    border: 0;
-    max-width: 100%;
-}
-Inherited from a.img
-.footer-fixed .img {
-    display: block;
-    height: 36px;
-    margin: 10px 18px;
-    color: #fff;
-}
-.footer-fixed .img span i {
-    display: block;
-    font-size: 16px;
-}
-em, i {
-    font-style: normal;
-}
-.footer-fixed .img em {
-    float: right;
-    background-color: #19d874;
-    width: 85px;
-    height: 26px;
-    line-height: 25px;
-    text-align: center;
-    color: #fff;
-    border-radius: 6px;
-    border-bottom: solid 1px #4ACB15;
-    font-size: 16px;
-    margin-top: 4px;
-} 
-.mpx{font-size: 14px;}
-</style>
 </head>
 <body bgcolor="#000000">
     <canvas id="gameCanvas" width="640" height="960"></canvas>
     <script type="text/javascript">
           window.onload = function(){
               cc.game.onStart = function(){
-              	  cc.view.adjustViewPort(true);
-              	  cc.view.enableAutoFullScreen(false);
-                  //var designSize = cc.size(640, 960);
-                  //var screenSize = cc.view.getFrameSize();
-                  //cc.view.setDesignResolutionSize(designSize.width, designSize.height, cc.ResolutionPolicy.SHOW_ALL);
-                  cc.view.setDesignResolutionSize(640, 960, cc.ResolutionPolicy.SHOW_ALL);
+                  var designSize = cc.size(640, 960);
+                  var screenSize = cc.view.getFrameSize();
+                  cc.view.setDesignResolutionSize(designSize.width, designSize.height, cc.ResolutionPolicy.SHOW_ALL);
                   //cc.LoaderScene.preload(["HelloWorld.png"], function () {//官方
                   MyLoaderScene.preload(g_resources, function () {//自定义,可以修改加裁的icon
                           var MyScene = cc.Scene.extend({

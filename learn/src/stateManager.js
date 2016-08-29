@@ -58,9 +58,9 @@ var StateManager = cc.Layer.extend({
     },
     updateScore:function(){
         DataManager.score++;
-        if(DataManager.score%16==0){
+        if(DataManager.score%10==0){
             DataManager.level++;
-            DataManager.speed+=0.2;
+            DataManager.speed+=0.5+Math.random();
         }
         this.score.setString(""+DataManager.score);
         this.level.setString(""+DataManager.level);
