@@ -25,7 +25,7 @@ var GameUI=cc.Layer.extend({
             function () {
                 cc.log("start");
                 this.gameLayer.status=Const.GAME_INIT;
-                this.removeRule();
+                this.removeRule();//删除其它面板
             },this);
         closeItem.setAnchorPoint(0.5, 0.5);
         var menu = new cc.Menu(closeItem);
