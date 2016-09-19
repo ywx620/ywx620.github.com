@@ -145,7 +145,7 @@ var MyLayer = cc.Layer.extend({
             var dy=ey-sy;
             this.shaiziStart[i].x+=dx/10;
             this.shaiziStart[i].y+=dy/10;
-            if(Math.abs(dx)<=1||Math.abs(dy)<=1){
+            if(Math.abs(dx)<=1&&Math.abs(dy)<=1){
                 this.status=Const.GAME_OVER;
             }
         }
