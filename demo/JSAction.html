@@ -1,0 +1,30 @@
+<head>
+<title>简单动画DEMO</title>
+</head>
+<style>
+#move{
+	position:absolute;
+	width:100px;
+	height:100px;
+	background-color:#0F0;
+	-webkit-transition:all 1s ease-in-out;/*分别是针对不同浏览器的差异性设置的标题头*/
+	transition:all 1s ease-in-out;
+	-moz-transition:all 1s ease-in-out;
+	-o-transition:all 1s ease-in-out;
+	}
+</style>
+<body>
+<div class="move" id="move"> 
+</div>
+<p id="seat"></p>
+<script>
+//点击后改变正方形的位置，然后CSS3自动渲染动画，其实是相当于从0到300px这样移动的
+var move=document.getElementById("move")
+move.onclick=function(){
+	move.style.left=500*Math.random()+"px";
+	move.style.bottom=500*Math.random()+"px";
+	document.getElementById("seat").innerHTML="x="+move.style.left+"<br>"+"y="+move.style.bottom;
+	}
+</script>
+</body>
+</html>
