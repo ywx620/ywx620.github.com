@@ -11,7 +11,7 @@ var MainLayer = cc.Layer.extend({
         this.init();
         this.createBg();
         this.createTitle();
-        //trace(DataManager.data[DataManager.level][0]);
+        trace("总题数数＝"+DataManager.data.length);
         //this.onStart(7)
     },
     init:function(){

@@ -11,6 +11,7 @@ var AnswerManager = cc.Layer.extend({
         this.init();
     },
     init:function(){
+        DataManager.level=parseInt(Math.random()*DataManager.data.length);
         this.nodes.length=0;
         for(var i=0;i<this.total;i++) {
             var node = new AnswerNode(parseInt(i+1));
@@ -35,7 +36,7 @@ var AnswerManager = cc.Layer.extend({
         DataManager.level++;
         this.initTitle();
         if(DataManager.level==DataManager.data.length-1){
-            target.setVisible(false);
+            DataManager.level=0;//做到最后一题又重头开始
         }
     },
     initTitle:function(){
