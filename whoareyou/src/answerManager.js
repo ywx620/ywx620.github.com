@@ -5,6 +5,7 @@ var AnswerManager = cc.Layer.extend({
     nodes:[],
     total:0,
     wodi:0,
+    wxsTxt:null,
     ctor:function (total) {
         this._super();
         this.total=total;
@@ -23,12 +24,20 @@ var AnswerManager = cc.Layer.extend({
         EventManager.addEventListener(EventManager.CLICK,this.onClick.bind(this));
         this.createBtn();
         this.initTitle();
+        this.createWxs();
+    },
+    createWxs:function(){
+        var node=new BasicText("谁先说？",50);
+        node.x=node.width;
+        node.y=20;
+        this.addChild(node);
+        this.wxsTxt=node;
     },
     createBtn:function(){
         var node=new BasicButton("#c2.png","下一题");
         node.x=(winSize.width-node.width)>>1;
         node.y=20;
-        node.type="nextTitle"
+        node.type="nextTitle";
         this.addChild(node);
         node.addEventListener("nextTitle",this.nextTitle.bind(this));
     },
@@ -38,9 +47,9 @@ var AnswerManager = cc.Layer.extend({
         if(DataManager.level==DataManager.data.length-1){
             DataManager.level=0;//做到最后一题又重头开始
         }
+        this.wxsTxt.setString("谁先说？");
     },
     initTitle:function(){
-        DataManager.state=0;
         DataManager.index=0;
         this.wodi=parseInt(Math.random()*this.total)+1;
         var datas=DataManager.data[DataManager.level];
@@ -73,7 +82,8 @@ var AnswerManager = cc.Layer.extend({
         }
     },
     startTalk:function(){
-        DataManager.state=1;
+        var firstTalk=parseInt(Math.random()*this.total)+1;
+        this.wxsTxt.setString(firstTalk+"号先说");
         for(var i=0;i<this.total;i++) {
             var node = this.nodes[i];
             node.button.setVisible(true);

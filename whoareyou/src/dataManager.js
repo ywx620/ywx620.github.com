@@ -1,5 +1,4 @@
 var DataManager ={};
-DataManager.state=0;//0查看1是讨论
 DataManager.index=0;
 DataManager.level=0;
 DataManager.data = [
