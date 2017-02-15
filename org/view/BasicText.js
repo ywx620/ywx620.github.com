@@ -7,12 +7,13 @@ var BasicText = cc.Sprite.extend({
     textColor:null,
     ctor:function (content,size,color) {
         this._super();
-        this.size=size;
-        if(color==null){
-            this.textColor=cc.color(255,255,255);
-        }else{
-            this.textColor=color;
-        }
+
+        if(size==null)  this.size=30;
+        else            this.size=size;
+
+        if(color==null) this.textColor=cc.color(255,255,255);
+        else            this.textColor=color;
+
         this.createText(content);
         this.setPoint(0,0);
     },
