@@ -406,7 +406,7 @@ var Laya=window.Laya=(function(window,document){
 		function Maggots(){
 			this.texturePath="res/tinyMaggot.png";
 			this.padding=100;
-			this.maggotAmount=1000;
+			this.maggotAmount=500;
 			this.tick=0;
 			this.maggots=[];
 			this.wrapBounds=null;
@@ -434,6 +434,8 @@ var Laya=window.Laya=(function(window,document){
 				var maggot=this.newMaggot();
 				maggotContainer.addChild(maggot);
 				this.maggots.push(maggot);
+				maggot.width*=2
+				maggot.height*=2
 			}
 		}
 
@@ -448,7 +450,7 @@ var Laya=window.Laya=(function(window,document){
 			var maggot=new Maggot();
 			maggot.graphics.drawTexture(this.maggotTexture,0,0);
 			maggot.pivot(16.5,35);
-			var rndScale=0.8+Math.random()*0.3;
+			var rndScale=1.8+Math.random()*0.5;
 			maggot.scale(rndScale,rndScale);
 			maggot.rotation=0.1;
 			maggot.x=Math.random()*Laya.stage.width;
@@ -467,7 +469,7 @@ var Laya=window.Laya=(function(window,document){
 			var dir,x=0.0,y=0.0;
 			for (var i=0;i < this.maggotAmount;i++){
 				maggot=this.maggots[i];
-				maggot.scaleY=0.90+Math.sin(this.tick+maggot.offset)*0.1;
+				maggot.scaleY=1.90+Math.sin(this.tick+maggot.offset)*0.1;
 				maggot.direction+=maggot.turningSpeed *0.01;
 				dir=maggot.direction;
 				x=maggot.x;
