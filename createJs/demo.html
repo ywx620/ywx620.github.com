@@ -1,0 +1,35 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>demo</title>
+</head>
+<body onload="init();">
+<script src="http://cdn.bootcss.com/EaselJS/0.8.0/easeljs.min.js" charset="utf-8"></script>
+<script src="https://code.createjs.com/tweenjs-0.6.2.min.js"></script>
+<script src="https://code.createjs.com/soundjs-0.6.2.min.js"></script>
+<script src="https://code.createjs.com/preloadjs-0.6.2.min.js"></script>
+<canvas id="demoCanvas" width="640" height="960" style="background:#CCCCCC;  width:100%;"></canvas>
+</body>
+<script>
+function init() {
+stage = new createjs.Stage("demoCanvas");
+circle = new createjs.Shape();
+circle.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
+circle.x = 100;
+circle.y = 100;
+stage.addChild(circle);
+stage.update();
+circle.addEventListener("click", handleClick);
+createjs.Ticker.addEventListener("tick", handleTick);
+}
+function handleClick(event){
+circle.y+=10;
+stage.update();
+}
+function handleTick() {
+circle.x += 10;
+if (circle.x > stage.canvas.width) { circle.x = 0; }
+stage.update();
+}
+</script>
+</html>
