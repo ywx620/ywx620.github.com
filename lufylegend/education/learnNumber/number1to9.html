@@ -14,6 +14,12 @@ var count=1;
 var start="重新开始";
 var playing=false;
 var txtTime;
+var soundRight;
+var soundWrong;
+var loadData = [
+    {name:"pass",path:"../../sound/pass.mp3"},
+    {name:"warn",path:"../../sound/warn.wav"}
+];
 function main () {
     LGlobal.stageScale=LStageScaleMode.SHOW_ALL;
     LSystem.screen(LStage.FULL_SCREEN);
@@ -23,6 +29,18 @@ function main () {
     var myTimer = new LTimer(10);
     myTimer.addEventListener(LTimerEvent.TIMER, timerHandler);
     myTimer.start();
+    
+     LLoadManage.load( 
+        loadData, 
+        null,
+        loadComplese
+    );
+}
+function loadComplese(result){
+	soundRight = new LSound();
+  soundRight.load(result["pass"]);
+  soundWrong = new LSound();
+  soundWrong.load(result["warn"]);
 }
 function timerHandler(){
   if(playing){
@@ -68,6 +86,9 @@ function onClick(event){
 	if(event.currentTarget.number==count){
 		count++;
 		event.currentTarget.visible=false;
+		soundRight.play();
+	}else {
+		soundWrong.play();
 	}
 	if(event.currentTarget.number==1){
 		timeStart=getTimer();
@@ -76,6 +97,8 @@ function onClick(event){
 		playing=false;
 	}
 	if(event.currentTarget.number==start){
+		soundRight.close();
+		soundWrong.close();
 		count=1;
 		setPos();
 		txtTime.text="0秒"
