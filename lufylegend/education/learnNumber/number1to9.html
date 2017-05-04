@@ -1,0 +1,128 @@
+﻿<html>
+<head>
+<meta charset="utf-8">
+<title>学习1到9</title>
+</head>
+<body><div id="canvas">loading</div></body>
+<script src="../../org/lufylegend-1.10.1.js"></script>
+<script>
+LInit(100,"canvas",640, 960, main);
+var colors=["#EEE5DE","#EEB4B4","#EE799F"];
+var list=[];
+var btnw=200;
+var count=1;
+var start="重新开始";
+var playing=false;
+var txtTime;
+function main () {
+    LGlobal.stageScale=LStageScaleMode.SHOW_ALL;
+    LSystem.screen(LStage.FULL_SCREEN);
+    LGlobal.setDebug(true);
+    
+    initGame();
+    var myTimer = new LTimer(10);
+    myTimer.addEventListener(LTimerEvent.TIMER, timerHandler);
+    myTimer.start();
+}
+function timerHandler(){
+  if(playing){
+  	var time=getTimer()-timeStart;
+  	time/=1000;
+  	txtTime.text=time+"秒"
+  }
+}
+function initGame(){
+	var btn;
+	for(var i=0;i<9;i++){
+		btn=createButton(getBitmap(colors[0]),getBitmap(colors[1]),getBitmap(colors[2]));
+		btn.number=i+1;
+		btn.setNumber(btn.number);
+		list.push(btn);
+		addChild(btn);
+	}
+	setPos();
+	btn=createButton(getBitmap(colors[0]),getBitmap(colors[1]),getBitmap(colors[2]));
+	btn.label.size=40;
+	btn.label.x=20;
+	btn.label.y=70;
+	btn.x=220;
+	btn.y=660;
+		btn.number=start;
+		btn.setNumber(btn.number);
+		addChild(btn);
+		
+		txtTime=createText(30,"#000000","0秒",0,800);
+		addChild(txtTime)
+}
+function setPos(){
+	list=getRandomArrayByArray(list)
+	var btn;
+	for(var i=0;i<9;i++){
+		btn=list[i];
+		btn.visible=true;
+		btn.x=10+parseInt(i%3)*(btnw+10);
+		btn.y=10+parseInt(i/3)*(btnw+10);
+	}
+}
+function onClick(event){
+	if(event.currentTarget.number==count){
+		count++;
+		event.currentTarget.visible=false;
+	}
+	if(event.currentTarget.number==1){
+		timeStart=getTimer();
+		playing=true;
+	}else if(count==10){
+		playing=false;
+	}
+	if(event.currentTarget.number==start){
+		count=1;
+		setPos();
+		txtTime.text="0秒"
+		playing=false;
+	}
+}
+function getRandomArrayByArray(datas)
+		{
+			var temps=datas;
+			var array=new Array;
+			for (var i = 0, len= temps.length; i < len; i++) {
+				var j= Math.floor(Math.random() * temps.length);
+				array[i] = temps[j];
+				temps.splice(j, 1);
+			}
+			return array;
+		}
+function createButton(bitmap1,bitmap2,bitmap3){
+    var btn= new LButton(bitmap1,bitmap2,bitmap3);
+    var btnLabel=createText(100,"#000000","开始");
+    btnLabel.x=btnLabel.y=50;
+    btnLabel.x+=20;
+    btn.addChild(btnLabel);
+    btn.addEventListener(LMouseEvent.MOUSE_DOWN,onClick);
+    btn.label=btnLabel
+    btn.setNumber=function(num){
+    	btnLabel.text=num;
+    }
+		return btn
+}
+
+function getBitmap(value,x,y){
+    var bitmapdata = new LBitmapData(value,0,0,btnw,btnw);
+    var bitmap = new LBitmap(bitmapdata);
+    x=x||0;y=y||0;
+    bitmap.x=x;bitmap.y=y;
+    return bitmap;
+}
+function createText(size,color,value,x,y){
+        text = new LTextField();
+        size=size||30;color=color||"#ffffff";value=value||"测试";
+        x=x||0;y=y||0;
+        text.size = size;
+        text.color = color;
+        text.text = value;
+        text.x=x;text.y=y;
+        return text;
+}
+</script>
+</html>
