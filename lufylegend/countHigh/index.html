@@ -1,0 +1,196 @@
+﻿<html>
+<head>
+<meta charset="utf-8">
+<title>demo</title>
+</head>
+<body><div id="canvas">loading</div></body>
+<script src="../org/lufylegend-1.10.1.js"></script>
+<script>
+var layer;
+var btnSkins=[];
+var btnClear;
+var playing=false;
+var average;//显示平均值
+var list=[];//记录平均值
+var loadData = [
+    {name:"btn1",path:"res/btn1.png"},
+    {name:"btn2",path:"res/btn2.png"},
+    {name:"btn3",path:"res/btn3.png"},
+    {name:"cbtn1",path:"res/cbtn1.png"},
+    {name:"cbtn2",path:"res/cbtn2.png"},
+    {name:"cbtn3",path:"res/cbtn3.png"},
+    {name:"input",path:"res/input.jpg"},
+    {name:"show",path:"res/show.jpg"},
+    {name:"line",path:"res/line.jpg"}
+];
+LInit(100,"canvas",640, 960, main);
+function main () {
+    LGlobal.stageScale=LStageScaleMode.SHOW_ALL;
+    LSystem.screen(LStage.FULL_SCREEN);
+    LGlobal.setDebug(true);
+    loadingLayer = new LoadingSample5(); 
+    addChild(loadingLayer); 
+    LLoadManage.load( 
+        loadData, 
+        function(progress){ 
+            loadingLayer.setProgress(progress); 
+         }, 
+        gameInit
+    );
+   // trace(LGlobal.width,LGlobal.height)
+   /*
+    for(var i=0;i<images.length;i++) {
+        loader = new LLoader();
+        loader.addEventListener(LEvent.COMPLETE, loadBitmapdata);
+        loader.load("res/"+images[i], "bitmapData");
+        loader.name=images[i];
+    }
+    **/
+    var myTimer = new LTimer(10);
+    myTimer.addEventListener(LTimerEvent.TIMER, timerHandler);
+    myTimer.start();
+}
+function timerHandler(){
+   if(playing){
+       timeCurrent=getTimer();
+       timeValue=timeCurrent-timeStart;
+       var second=parseInt(timeValue/1000);
+       var million=parseInt(timeValue%1000);
+       second=second<10?"0"+second:second;
+       million=million.toString().substr(0,2);
+       txtTime.text=second+":"+million;
+   }
+}
+function gameInit (result) {
+    datalist = result; 
+    removeChild(loadingLayer); 
+    loadingLayer = null; 
+    for(var i in datalist){
+    	loadBitmapdata(i,datalist[i]);
+    }
+    
+    btnClear= new LButton(getBitmap(datalist["cbtn1"]),getBitmap(datalist["cbtn2"]),getBitmap(datalist["cbtn3"]));
+    btnClear.x=470
+    btnClear.y=300;
+    btnClear.addChild(createText(30,"#ff0000","清空",45,10))
+    btnClear.addEventListener(LMouseEvent.MOUSE_DOWN,onClear)
+    addChild(btnClear);
+    
+    addChild(createText(30,"#000fff","公式:h=1/2*g*t*t,g=9.8",10,900));
+}
+function loadBitmapdata (name,value) {
+    var bitmap;
+    switch(name){
+        case "show":
+            getBitmap(value,0,360);
+            showHigh=createText(30,"#999999","");
+            showHigh.text="";
+            showHigh.width=LGlobal.width;
+            showHigh.setMultiline(true,36)
+                addChild(showHigh);
+
+                average=createText(35,"#333333","平均值");
+                average.y=380;
+                addChild(average);
+            break;
+        case "line":
+            getBitmap(value,0,420);
+            break;
+        case "input":
+            bitmap=getBitmap(value,0,480);
+            bitmap.x=(LGlobal.width-bitmap.width)>>1;
+                txtTime=createText(40,"#000000","00:00");
+                txtTime.x=bitmap.x+110;
+                txtTime.y=bitmap.y+8;
+                addChild(txtTime);
+            break;
+        case "btn1":
+        case "btn2":
+        case "btn3":
+                btnSkins.push(value);
+                if(btnSkins.length==3){
+                    createButton();
+                }
+            break;
+    }
+}
+function createButton(){
+    var bitmapdata = new LBitmapData(btnSkins[0]);
+    var bitmap = new LBitmap(bitmapdata);
+    btn= new LButton(getBitmap(btnSkins[0]),getBitmap(btnSkins[1]),getBitmap(btnSkins[2]));
+    btn.x=(LGlobal.width-bitmap.width)>>1;
+    btn.y=600;
+    btnLabel=createText(50,"#000000","开始");
+    btnLabel.x=btnLabel.y=50;
+    btnLabel.y=70;
+    btn.addChild(btnLabel);
+    btn.addEventListener(LMouseEvent.MOUSE_DOWN,onClick)
+    addChild(btn);
+		return btn
+}
+function createShow(value){
+    for(var i=0;i<5;i++){
+        var bitmap=getBitmap(value,0,0);
+        bitmap.y=bitmap.height*i;
+    }
+}
+function getBitmap(value,x,y){
+    var bitmapdata = new LBitmapData(value);
+    var bitmap = new LBitmap(bitmapdata);
+    x=x||0;y=y||0;
+    bitmap.x=x;bitmap.y=y;
+    addChild(bitmap);
+    return bitmap;
+}
+    function createText(size,color,value,x,y){
+        text = new LTextField();
+        size=size||30;color=color||"#ffffff";value=value||"测试";
+        x=x||0;y=y||0;
+        text.size = size;
+        text.color = color;
+        text.text = value;
+        text.x=x;text.y=y;
+        return text;
+    }
+    function onClick(event){
+        if(btnLabel.text=="开始") {
+            btnLabel.text = "停止";
+            timeStart=getTimer();
+            playing=true;
+        }else{
+        		//txtTime.text="00:00";
+            btnLabel.text = "开始";
+            playing=false;
+            countHigh();
+        }
+    }
+    function onClear(event){
+    	list.length=0;
+    	showHigh.text="";
+    	average.text="平均值";
+    	txtTime.text="00:00";
+    }
+    function countHigh(){
+    	if(list.length==10){
+    		onClear();
+    	}
+        timeValue=timeValue/1000;
+        highValue=0.5*9.8*timeValue*timeValue;
+        timeValue=timeValue.toString().substr(0,4);
+        highValue=highValue.toString().substr(0,4);
+        list.push([timeValue,highValue])
+        showHigh.text+="用时:"+timeValue+"秒,高度:"+highValue+"米\n";
+        //trace(timeValue,highValue)
+        var tv=0,hv=0;
+				for(var i=0;i<list.length;i++){
+					tv+=Number(list[i][0]);
+					hv+=Number(list[i][1]);
+				}
+				tv=tv/list.length;
+				hv=hv/list.length;
+				tv=tv.toString().substr(0,4);
+        hv=hv.toString().substr(0,4);
+        average.text="平均用时:"+tv+"秒,平均高度:"+hv+"米";
+    }
+</script>
+</html>

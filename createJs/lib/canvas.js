@@ -1,20 +1,20 @@
-var canvasManager={};
+ï»¿var canvasManager={};
 canvasManager.setCenter=function(canvas){
-	//Õâ¸ö·½·¨ÊÇÓÃÀ´ÉèÖÃ»­²¼¾ÓÖĞµÄ
-	var w=document.body.clientWidth;//»ñÈ¡ä¯ÀÀÆ÷¿ÉÊÓÇøÓòµÄ¿í
-	var h=document.body.clientHeight;//»ñÈ¡ä¯ÀÀÆ÷¿ÉÊÓÇøÓòµÄ¸ß
-	var scale=Math.min(w/canvas.width,h/canvas.height);//µÈ±ÈËõ·Å²¢¾ÓÖĞÏÔÊ¾
-	canvas.style.position="absolute";//canvasÓÃ¾ø¶Ô¶¨Î»
+	//è¿™ä¸ªæ–¹æ³•æ˜¯ç”¨æ¥è®¾ç½®ç”»å¸ƒå±…ä¸­çš„
+	var w=document.body.clientWidth;//è·å–æµè§ˆå™¨å¯è§†åŒºåŸŸçš„å®½
+	var h=document.body.clientHeight;//è·å–æµè§ˆå™¨å¯è§†åŒºåŸŸçš„é«˜
+	var scale=Math.min(w/canvas.width,h/canvas.height);//ç­‰æ¯”ç¼©æ”¾å¹¶å±…ä¸­æ˜¾ç¤º
+	canvas.style.position="absolute";//canvasç”¨ç»å¯¹å®šä½
 	canvas.style.width=canvas.width*scale+"px";
 	canvas.style.height=canvas.height*scale+"px";
 	canvas.style.left=(w-parseInt(canvas.style.width))*0.5+"px";
 	canvas.style.top=(h-parseInt(canvas.style.height))*0.5+"px";
 }
 canvasManager.setColor=function(canvas,color){
-	//Õâ¸ö·½·¨ÊÇÓÃÀ´ÉèÖÃ»­²¼±³¾°ÑÕÉ«
+	//è¿™ä¸ªæ–¹æ³•æ˜¯ç”¨æ¥è®¾ç½®ç”»å¸ƒèƒŒæ™¯é¢œè‰²
 	canvas.style="background:"+color;
 }
 canvasManager.setWindowColor=function(color){
-	//Õâ¸ö·½·¨ÊÇÓÃÀ´ÉèÖÃä¯ÀÀÆ÷±³¾°ÑÕÉ«
+	//è¿™ä¸ªæ–¹æ³•æ˜¯ç”¨æ¥è®¾ç½®æµè§ˆå™¨èƒŒæ™¯é¢œè‰²
 	document.body.style="background:"+color;
 }
