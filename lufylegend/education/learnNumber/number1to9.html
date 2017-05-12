@@ -4,7 +4,7 @@
 <title>学习1到9</title>
 </head>
 <body><div id="canvas">loading</div></body>
-<script src="../../org/lufylegend-1.10.1.simple.min.js"></script>
+<script src="../../org/lufylegend-1.10.1.min.js"></script>
 <script>
 LInit(100,"canvas",640, 960, main);
 var colors=["#EEE5DE","#EEB4B4","#EE799F"];
@@ -21,26 +21,31 @@ var loadData = [
     {name:"warn",path:"../../sound/warn.wav"}
 ];
 function main () {
-    LGlobal.stageScale=LStageScaleMode.SHOW_ALL;
-    LSystem.screen(LStage.FULL_SCREEN);
-    LGlobal.setDebug(true);
-    
-    initGame();
-    var myTimer = new LTimer(10);
-    myTimer.addEventListener(LTimerEvent.TIMER, timerHandler);
-    myTimer.start();
-    
-     LLoadManage.load( 
-        loadData, 
-        null,
-        loadComplese
-    );
+	LGlobal.stageScale=LStageScaleMode.SHOW_ALL;
+	LSystem.screen(LStage.FULL_SCREEN);
+	LGlobal.setDebug(true);
+	loadingLayer = new LoadingSample5();
+	addChild(loadingLayer);
+	LLoadManage.load(
+			loadData,
+			function(progress){
+				loadingLayer.setProgress(progress);
+			},
+			loadComplete
+	);
 }
-function loadComplese(result){
+function loadComplete(result){
+	removeChild(loadingLayer);
+	loadingLayer = null;
 	soundRight = new LSound();
   soundRight.load(result["pass"]);
   soundWrong = new LSound();
   soundWrong.load(result["warn"]);
+
+	initGame();
+	var myTimer = new LTimer(10);
+	myTimer.addEventListener(LTimerEvent.TIMER, timerHandler);
+	myTimer.start();
 }
 function timerHandler(){
   if(playing){
