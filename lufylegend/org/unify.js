@@ -35,8 +35,8 @@ Unify.createButton=function (bitmap1,bitmap2,bitmap3){
     return btn;
 };
 //创建矢量色块
-Unify.createBitmap=function (value,x,y,w,h){
-    var bitmapdata = new LBitmapData(value,0,0,w,h);
+Unify.createBitmap=function (c,x,y,w,h){
+    var bitmapdata = new LBitmapData(c,0,0,w,h);
     var bitmap = new LBitmap(bitmapdata);
     x=x||0;y=y||0;
     bitmap.x=x;bitmap.y=y;
@@ -85,4 +85,8 @@ Unify.autoPosition=function(value,x,y,xNum,xDis,yDis){
 Unify.showFPS=function(){
     var fps=new FPS();
     addChild(fps);
-}
+};
+Unify.createLine=function(y,c){
+    y=y||0;c=c||"#000000";
+    addChild(Unify.createBitmap(c,0,y,LGlobal.width,2));
+};
