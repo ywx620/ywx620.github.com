@@ -1,0 +1,139 @@
+﻿<html>
+<head>
+	<meta charset="utf-8">
+	<title>幼儿教育</title>
+</head>
+<body><div id="canvas">loading</div></body>
+<script src="../../org/lufylegend-1.10.1.min.js"></script>
+<script src="../../org/unify.js"></script>
+<script>
+	LInit(100,"canvas",640, 960, main);
+	var backLayer;
+	var drawLayer;
+	var btnw=120;
+	var btnh=60;
+	var btns=[];
+	var path="../../";
+	var loadData = [
+		{name:"pass",path:path+"sound/pass.mp3"},
+		{name:"warn",path:path+"sound/warn.wav"}
+	];
+	var values=[1,2,3,4,5];
+	var target1;
+	var target2;
+	function main () {
+		Unify.setStage();
+		loadingLayer = new LoadingSample5();
+		addChild(loadingLayer);
+		LLoadManage.load(loadData,function(progress){loadingLayer.setProgress(progress);},loadComplete);
+	}
+	function loadComplete(result){
+		removeChild(loadingLayer);
+		loadingLayer = null;
+		Unify.setRightWrongSound(result);
+
+		initGame();
+		initFillColor();
+
+	}
+	function initGame(){
+		initTitle("数字连线与涂色块");
+		backLayer=new LSprite;
+		addChild(backLayer);
+
+		drawLayer=new LSprite;
+		addChild(drawLayer);
+		//backLayer.graphics.drawLine(2,"#FF0000",[0, 0, 500, 500]);
+		createNumber(60,"#FF6600","number");
+		createNumber(300,"#FF3366","point");
+	}
+	function initTitle(value){
+		addChild(Unify.createText(40,"#000000",value,0,0));
+		Unify.createLine(50);
+		Unify.createLine(400);
+	}
+	function createNumber(y,color,type) {
+		var btnColor;
+		values = Unify.getRandomArrayByArray(values);
+		var btns=[];
+		var temp = Math.floor(Math.random() * 5);
+		for (var i = 0; i < 5; i++) {
+			var num=values[i];
+			//trace(values[i]+"="+index)
+			btnColor = Unify.createButton(colorBox(color), colorBox(color), colorBox(color));
+			btnColor.data = num
+			btnColor.addEventListener(LMouseEvent.MOUSE_DOWN, onClick);
+			if(type=="number"){
+				var label=Unify.createText(50,"#0",num);
+				label.width=btnw>>2;
+				label.height=btnw>>1;
+				btnColor.addLabel(label);
+			}else{
+				var points=[];
+				for(var j=0;j<num;j++) {
+					var point = new LSprite;
+					point.graphics.drawArc(1, "black", [0, 0, 10, 0, 2 * Math.PI, false], true, "#FFFFFF");
+					btnColor.addChild(point);
+					points.push(point);
+				}
+				Unify.autoPosition(points,30,20,3,25,25);
+			}
+			backLayer.addChild(btnColor);
+			btns.push(btnColor);
+		}
+		Unify.autoPosition(btns,10,y,5,btnw+10,btnw+10);
+	}
+	function colorBox(value){
+		return Unify.createBitmap(value,0,0,btnw,btnw/2)
+	}
+	function onClick(event){
+		if(target1==null) target1=event.currentTarget;
+		else if(target2==null) target2=event.currentTarget;
+		if(target1!=null&&target2!=null) {
+			if (target1.data == target2.data) {
+				Unify.playSoundRight();
+				drawLayer.graphics.drawLine(2,"#333333",[target1.x+btnh, target1.y+btnh/2, target2.x+btnh, target2.y+btnh/2]);
+			} else {
+				Unify.playSoundWrong();
+			}
+			target1=target2=null;
+		}
+	}
+//----------------------------------
+	function initFillColor(){
+		addChild(Unify.createText(30,"#000000","先数一数再涂色",0,450));
+		createCircle();
+	}
+	function createCircle() {
+		var btnColor;
+		values = Unify.getRandomArrayByArray(values);
+		var x=20;y=520;xNum=5;xDis=300;yDis=80;
+		for (var i = 0; i < 5; i++) {
+			var num=values[i];
+			var points=[];
+			var rects=[];
+			for(var j=0;j<num;j++) {
+				var point = new LSprite;
+				point.graphics.drawArc(1, "black", [5, 30, 10, 0, 2 * Math.PI, false], true, "#FFFFFF");
+				addChild(point);
+				points.push(point);
+			}
+			for(var j=0;j<5;j++) {
+				var rect = new LSprite;
+				rect.graphics.drawRect(1,"black",[0, 0, 60, 60],true,"#FFFFFF");
+				rect.addEventListener(LMouseEvent.MOUSE_DOWN, onClickRect);
+				addChild(rect);
+				rects.push(rect);
+			}
+			var xx=10//x+parseInt(i%xNum)*xDis;
+			var yy=y+i*yDis;
+			Unify.autoPosition(points,xx,yy,num,25,25);
+			Unify.autoPosition(rects,xx+120,yy,5,60,1);
+		}
+	}
+	function onClickRect(event){
+		var rect=event.currentTarget;
+		rect.graphics.drawRect(1,"black",[0, 0, 60, 60],true,"#FF0000");
+	}
+</script>
+</html>

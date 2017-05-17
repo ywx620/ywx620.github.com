@@ -11,7 +11,7 @@
 	var btnw=300;
 	var colors=["#FFFFFF","#000000","#FF0000","#00FF00","#0000FF","#FF66FF","#9900CC","#FF9900"];
 	var names=["白","黑","红","绿","蓝","粉","紫","橙"];
-	var values=[0,1,2,3,4,5,6,7]
+	var values=[0,1,2,3,4,5,6,7];
 	var btns=[];
 	var title;
 	var index=0;
@@ -43,7 +43,7 @@
 		createColor();
 	}
 	function initTitle(value){
-		addChild(Unify.createText(50,"0X000000",value,0,0));
+		addChild(Unify.createText(50,"#000000",value,0,0));
 	}
 	function removeColor(){
 		for(var i=0;i<btns.length;i++){
