@@ -1,0 +1,78 @@
+﻿<html>
+<head>
+	<meta charset="utf-8">
+	<title>对比两边数量</title>
+</head>
+<body><div id="canvas">loading</div></body>
+<script src="../../org/unify.js"></script>
+<script src="../../org/lufylegend-1.10.1.min.js"></script>
+<script>
+	LInit(100,"canvas",640, 960, main);
+	var backLayer;
+	var pic;
+	var path="../../";
+	var loadData = [
+		{name:"pass",path:path+"sound/pass.mp3"},
+		{name:"warn",path:path+"sound/warn.wav"},
+		{name:"pic",path:path+"asset/homework_20170523.jpg"}
+	];
+	function main () {
+		Unify.setStage();
+		loadingLayer = new LoadingSample5();
+		addChild(loadingLayer);
+		LLoadManage.load(loadData,function(progress){loadingLayer.setProgress(progress);},loadComplete);
+	}
+	function loadComplete(result){
+		loadData=result
+		removeChild(loadingLayer);
+		loadingLayer = null;
+		Unify.setRightWrongSound(result);
+
+		initGame();
+	}
+	function initGame(){
+		initTitle("对比两边数量,请把多的圈起来");
+		
+		pic=Unify.createBitmap(loadData["pic"]);
+		pic.scaleX=pic.scaleY=2;
+		pic.y=50;
+		addChild(pic)
+
+		
+		backLayer=new LSprite;
+		backLayer.graphics.drawRect(1, "#ffffff", [0, 0, LGlobal.width, LGlobal.height]);
+		addChild(backLayer);
+
+		backLayer.addEventListener(LMouseEvent.MOUSE_DOWN,onClick);
+
+		var color="#EEE5DE";
+		btnClear = Unify.createButton(colorBox(color), colorBox(color), colorBox(color));
+		label=Unify.createText(30,"#FF0000","清空");
+		btnClear.addLabel(label);
+		label.x=20;
+		label.y=10;
+		addChild(btnClear);
+		btnClear.x=LGlobal.width/2-80;
+		btnClear.y=LGlobal.height-90;
+		btnClear.addEventListener(LMouseEvent.MOUSE_DOWN,onClick);
+	}
+	function colorBox(value){
+		return Unify.createBitmap(value,0,0,100,50)
+	}
+	function initTitle(value){
+		addChild(Unify.createText(40,"#000000",value,0,0));
+		addChild(Unify.createBitmap("#000000",0,50,LGlobal.width,2));
+	}
+	function onClick(event){
+		if(event.currentTarget==btnClear){
+			backLayer.removeAllChild();
+			LGlobal.stopPropagation();
+			return;
+		}
+		var shape = new LShape();
+		backLayer.addChild(shape);
+		shape.graphics.drawArc(4, "#ff0000", [mouseX, mouseY, 40, 0, 2*Math.PI]);
+	}
+
+</script>
+</html>

@@ -4,6 +4,7 @@
 var Unify={};
 //设置场景全屏居中
 Unify.setStage=function(){
+		LGlobal.align = LStageAlign.BOTTOM_MIDDLE;
     LGlobal.stageScale=LStageScaleMode.SHOW_ALL;
     LSystem.screen(LStage.FULL_SCREEN);
     LGlobal.setDebug(true);

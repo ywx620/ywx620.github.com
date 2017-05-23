@@ -61,7 +61,7 @@
 			var num=values[i];
 			//trace(values[i]+"="+index)
 			btnColor = Unify.createButton(colorBox(color), colorBox(color), colorBox(color));
-			btnColor.data = num
+			btnColor.data = num;
 			btnColor.addEventListener(LMouseEvent.MOUSE_DOWN, onClick);
 			if(type=="number"){
 				var label=Unify.createText(50,"#0",num);
