@@ -1,0 +1,119 @@
+﻿<html>
+<head>
+	<meta charset="utf-8">
+	<title>请把外面的小动物圈起来</title>
+</head>
+<body><div id="canvas">loading</div></body>
+<script src="../../org/unify.js"></script>
+<script src="../../org/lufylegend-1.10.1.min.js"></script>
+<script>
+	LInit(100,"canvas",640, 960, main);
+	var backLayer;
+	var picLayer;
+	var pic;
+	var path="../../";
+	var loadData = [
+		{name:"pass",path:path+"sound/pass.mp3"},
+		{name:"warn",path:path+"sound/warn.wav"},
+		{name:"pic1",path:path+"asset/homework_20170613_1.jpg"},
+		{name:"pic2",path:path+"asset/homework_20170613_2.jpg"}
+	];
+	function main () {
+		Unify.setStage();
+		loadingLayer = new LoadingSample5();
+		addChild(loadingLayer);
+		LLoadManage.load(loadData,function(progress){loadingLayer.setProgress(progress);},loadComplete);
+	}
+	function loadComplete(result){
+		loadData=result
+		removeChild(loadingLayer);
+		loadingLayer = null;
+		Unify.setRightWrongSound(result);
+
+		initGame();
+	}
+	function initGame(){
+		initTitle("请把外面的小动物圈起来");
+		
+		picLayer=new LSprite;
+		addChild(picLayer);
+		addPic(1);
+
+				
+		backLayer=new LSprite;
+		backLayer.graphics.drawRect(1, "#ffffff", [0, 0, LGlobal.width, LGlobal.height]);
+		addChild(backLayer);
+		backLayer.addEventListener(LMouseEvent.MOUSE_DOWN,onClick);
+		
+
+		var color="#EEE5DE";
+		btnClear = Unify.createButton(colorBox(color), colorBox(color), colorBox(color));
+		label=Unify.createText(30,"#FF0000","清空");
+		btnClear.addLabel(label);
+		label.x=20;
+		label.y=10;
+		addChild(btnClear);
+		btnClear.x=LGlobal.width/2-80;
+		btnClear.y=LGlobal.height-90;
+		btnClear.addEventListener(LMouseEvent.MOUSE_DOWN,onClick);
+		
+		btnUp = Unify.createButton(colorBox(color), colorBox(color), colorBox(color));
+		label=Unify.createText(30,"#FF0000","上一页");
+		btnUp.addLabel(label);
+		label.x=0;
+		label.y=10;
+		addChild(btnUp);
+		btnUp.x=10;
+		btnUp.y=LGlobal.height-90;
+		btnUp.addEventListener(LMouseEvent.MOUSE_DOWN,onClick);
+		
+		btnDown = Unify.createButton(colorBox(color), colorBox(color), colorBox(color));
+		label=Unify.createText(30,"#FF0000","下一页");
+		btnDown.addLabel(label);
+		label.x=0;
+		label.y=10;
+		addChild(btnDown);
+		btnDown.x=LGlobal.width-120;
+		btnDown.y=LGlobal.height-90;
+		btnDown.addEventListener(LMouseEvent.MOUSE_DOWN,onClick);
+		
+	}
+	function addPic(num){
+		if(pic!=null){
+			picLayer.removeChild(pic);
+			pic=null;
+		}
+		pic=Unify.createBitmap(loadData["pic"+num]);
+		pic.y=50;
+		picLayer.addChild(this.pic);
+	}
+	function colorBox(value){
+		return Unify.createBitmap(value,0,0,100,50)
+	}
+	function initTitle(value){
+		addChild(Unify.createText(40,"#000000",value,0,0));
+		addChild(Unify.createBitmap("#000000",0,50,LGlobal.width,2));
+	}
+	function onClick(event){
+		if(event.currentTarget==btnClear){
+			backLayer.removeAllChild();
+			LGlobal.stopPropagation();
+			return;
+		}else if(event.currentTarget==btnUp){
+			addPic(1)
+			backLayer.removeAllChild();
+			LGlobal.stopPropagation();
+			return;
+		}else if(event.currentTarget==btnDown){
+			addPic(2)
+			backLayer.removeAllChild();
+			LGlobal.stopPropagation();
+			return;
+		}
+		var shape = new LShape();
+		backLayer.addChild(shape);
+		shape.graphics.drawArc(4, "#ff0000", [mouseX, mouseY, 40, 0, 2*Math.PI]);
+	}
+
+</script>
+</html>
