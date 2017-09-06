@@ -87,7 +87,17 @@ Unify.showFPS=function(){
     var fps=new FPS();
     addChild(fps);
 };
+//·Ö¸îÏß
 Unify.createLine=function(y,c){
     y=y||0;c=c||"#000000";
     addChild(Unify.createBitmap(c,0,y,LGlobal.width,2));
 };
+Unify.getCenterX=function(w){
+	w=w||0;
+	return (LGlobal.width-w)/2;
+};
+Unify.getCenterY=function(h){
+	h=h||0;
+	return (LGlobal.height-h)/2;
+};
+
