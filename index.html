@@ -1,10 +1,28 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<title>小游戏集合地</title>
-</head>
-<body bgcolor="#708090">
+
+	<head>
+		<meta charset="utf-8">
+		<title>一起做游戏</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mui/3.7.1/css/mui.min.css">
+	</head>
+	<style>
+	body{
+        margin: auto;
+        display: grid;
+		grid-template-columns: repeat(6,minmax(60px,2fr));
+        grid-template-rows: repeat(8,minmax(80px,1fr));
+		grid-gap: 10px 20px;
+		justify-content:stretch;
+        align-content:stretch;
+    }
+	</style>
+	<body>
+		<button onClick="javascript:window.open('./onlineCode/index.html')" type="button" class="mui-btn-primary mui-btn-block">在线做游戏</button>
+		
     <center>
     		<h1><a href="http://ywx620.github.io/lufylegend/education/" target="_blank">幼儿教育</a></h1>
         <h1><a href="http://ywx620.github.io/midAutumn/" target="_blank">中秋博饼</a></h1>
