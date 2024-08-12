@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>谁是卧底</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ecfae4;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+        button, input {
+            font-size: 18px;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .hidden {
+            display: none;
+        }
+        .visible {
+            display: block;
+        }
+        #playerNumber, #word {
+            font-size: 22px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>谁是卧底</h1>
+        <div id="step1">
+            <label for="numPlayers">选择人数：</label>
+            <input type="number" id="numPlayers" min="3" max="10">
+            <button onclick="startGame()">开始游戏</button>
+        </div>
+        <div id="step2" class="hidden">
+            <p id="playerNumber"></p>
+            <button id="viewButton" onclick="viewWord()">查看</button>
+            <p id="word" class="hidden" style=" color: #0085b9"></p>
+            <button id="closeButton" class="hidden" onclick="closeWord()">关闭</button>
+        </div>
+        <button id="nextRoundButton" class="hidden" onclick="nextRound()">下一局</button>
+    </div>
+
+    <script>
+        const undercoverData = [
+            { civilian: "苹果", undercover: "橙子" },
+            { civilian: "足球", undercover: "篮球" },
+            { civilian: "电脑", undercover: "手机" },
+            { civilian: "饺子", undercover: "包子" },
+            { civilian: "电梯", undercover: "楼梯" },
+            { civilian: "飞机", undercover: "火车" },
+            { civilian: "桌子", undercover: "椅子" },
+            { civilian: "夏天", undercover: "冬天" },
+            { civilian: "雨伞", undercover: "雨衣" },
+            { civilian: "猫", undercover: "狗" },
+            { civilian: "钢琴", undercover: "吉他" },
+            { civilian: "牛奶", undercover: "豆浆" },
+            { civilian: "玫瑰", undercover: "百合" },
+            { civilian: "西瓜", undercover: "哈密瓜" },
+            { civilian: "洗衣机", undercover: "洗碗机" },
+            { civilian: "超市", undercover: "菜市场" },
+            { civilian: "医生", undercover: "护士" },
+            { civilian: "电影", undercover: "电视剧" },
+            { civilian: "钥匙", undercover: "锁" },
+            { civilian: "摩托车", undercover: "自行车" },
+            { civilian: "沙发", undercover: "床" },
+            { civilian: "画家", undercover: "书法家" },
+            { civilian: "啤酒", undercover: "白酒" },
+            { civilian: "太阳", undercover: "月亮" },
+            { civilian: "巧克力", undercover: "糖果" },
+            { civilian: "钢笔", undercover: "铅笔" },
+            { civilian: "冰箱", undercover: "空调" },
+            { civilian: "面包", undercover: "蛋糕" },
+            { civilian: "咖啡", undercover: "茶" },
+            { civilian: "火锅", undercover: "烧烤" },
+            { civilian: "报纸", undercover: "杂志" },
+            { civilian: "纸巾", undercover: "毛巾" },
+            { civilian: "领带", undercover: "领结" },
+            { civilian: "白菜", undercover: "青菜" },
+            { civilian: "小说", undercover: "散文" },
+            { civilian: "卡车", undercover: "轿车" },
+            { civilian: "热狗", undercover: "汉堡" },
+            { civilian: "香蕉", undercover: "菠萝" },
+            { civilian: "围巾", undercover: "手套" },
+            { civilian: "冰淇淋", undercover: "雪糕" },
+            { civilian: "公交车", undercover: "地铁" },
+            { civilian: "牛仔裤", undercover: "短裤" },
+            { civilian: "巧克力", undercover: "布丁" },
+            { civilian: "书包", undercover: "钱包" },
+            { civilian: "眼镜", undercover: "墨镜" },
+            { civilian: "蜡烛", undercover: "电灯" },
+            { civilian: "树叶", undercover: "花瓣" },
+            { civilian: "花生", undercover: "瓜子" },
+            { civilian: "蓝天", undercover: "白云" }
+        ];
+
+        let numPlayers;
+        let currentPlayer = 0;
+        let words = [];
+        let undercoverIndex;
+
+        function startGame() {
+            numPlayers = numPlayers || document.getElementById('numPlayers').value;
+            if (numPlayers < 3 || numPlayers > 10) {
+                numPlayers=0;
+                document.getElementById('numPlayers').value='';
+                alert('玩家人数应在3到10之间');
+                return;
+            }
+
+            // 随机选择词组
+            const randomIndex = Math.floor(Math.random() * undercoverData.length);
+            const selectedWords = undercoverData[randomIndex];
+
+            // 随机分配卧底
+            undercoverIndex = Math.floor(Math.random() * numPlayers);
+            words = [];
+            for (let i = 0; i < numPlayers; i++) {
+                words.push(i === undercoverIndex ? selectedWords.undercover : selectedWords.civilian);
+            }
+
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.remove('hidden');
+            showCurrentPlayer();
+        }
+
+        function showCurrentPlayer() {
+            document.getElementById('playerNumber').innerText = `玩家 ${currentPlayer + 1} 请查看你的词语`;
+            document.getElementById('viewButton').classList.remove('hidden');
+            document.getElementById('word').classList.add('hidden');
+            document.getElementById('closeButton').classList.add('hidden');
+        }
+
+        function viewWord() {
+            document.getElementById('word').innerText = words[currentPlayer];
+            document.getElementById('viewButton').classList.add('hidden');
+            document.getElementById('word').classList.remove('hidden');
+            document.getElementById('closeButton').classList.remove('hidden');
+        }
+
+        function closeWord() {
+            currentPlayer++;
+            if (currentPlayer < numPlayers) {
+                showCurrentPlayer();
+            } else {
+                document.getElementById('playerNumber').innerText = '所有玩家已查看完词语，请开始游戏！';
+                document.getElementById('viewButton').classList.add('hidden');
+                document.getElementById('word').classList.add('hidden');
+                document.getElementById('closeButton').classList.add('hidden');
+                setTimeout(() => {
+                    document.getElementById('nextRoundButton').classList.remove('hidden');
+                }, 5000);
+            }
+        }
+
+        function nextRound() {
+            currentPlayer = 0;
+            document.getElementById('nextRoundButton').classList.add('hidden');
+            document.getElementById('step2').classList.add('hidden');
+            startGame();
+        }
+    </script>
+</body>
+</html>
